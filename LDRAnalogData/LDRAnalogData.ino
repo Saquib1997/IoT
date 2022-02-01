@@ -15,10 +15,9 @@ void loop() {
 
   // put your main code here, to run repeatedly:
   
-  val = digitalRead(ldr);
-  //
+  val = analogRead(ldr);
   Serial.println(val);
-  if(val == 1){
+  if(val >= 1500){
     digitalWrite(led, 1);
   }
   else{
