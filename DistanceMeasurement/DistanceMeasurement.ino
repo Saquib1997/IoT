@@ -16,6 +16,7 @@ const char * myWriteAPIKey = "92QBGYQMC19UFF16"; //Your Write API Key
 
 const int trigPin = 5;
 const int echoPin = 18;
+const int ledpin = 19;
 
 //define sound speed in cm/uS
 #define SOUND_SPEED 0.034
@@ -24,6 +25,7 @@ const int echoPin = 18;
 long duration;
 float distanceCm;
 float Dist;
+static int count = 0;
 
 void setup() {
 
@@ -33,6 +35,7 @@ void setup() {
 
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  pinMode(ledpin, OUTPUT);
 }
 
 void loop() {
@@ -68,14 +71,22 @@ void loop() {
   
   Dist = distanceCm; 
   
+  if(distanceCm < 16){
+    count++;
+    Serial.print("The number of person present in room is: ");
+    Serial.println(count);
+    digitalWrite(ledpin, HIGH);
+  }
+  else{
+    digitalWrite(ledpin, LOW);
+  }
   // Prints the distance in the Serial Monitor
   Serial.print("Distance (cm): ");
   Serial.println(distanceCm);
 
- //-------------Sending Data to ThingSpeak Cloud---------------//
-  ThingSpeak.writeField(myChannelField,ChannelField3, Dist, myWriteAPIKey);
-  
-  delay(1000);
+  //-------------Sending Data to ThingSpeak Cloud---------------//
+  //ThingSpeak.writeField(myChannelField,ChannelField3, Dist, myWriteAPIKey);
+  //delay(500);
 
 }
 
